@@ -16,7 +16,7 @@ def imprimir_nombres(nombres):
         print(nombres[i])
     print("-------------")
     
-nombres = ["Nicolas","Alejandro","Eduardo"]
+nombres = ["Nicolas","Alejandro","Eduardo", 5]
 print(nombres[1])
 nombres[1]= "Carlos"
 
