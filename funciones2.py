@@ -1,7 +1,7 @@
 # Funciones 2
 
 def contar(hasta):
-    for i in [0,1,2,3]:
+    for i in range(hasta):
         print(i)
 '''   
     i = 0
