@@ -35,3 +35,8 @@ columnas = 3
 
 matriz3 = [[0] * columnas for i in range(filas)]
 imprimir_matriz(matriz3)
+
+############################################
+matriz3d = [[[1,2],[3,4]],[[5,6],[7,8]]]
+print(matriz3d)
+print(matriz3d[0][0][1])

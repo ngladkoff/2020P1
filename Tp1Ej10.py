@@ -45,6 +45,10 @@ def imprimir_mes(mes,anio):
     cantidad_dias_mes = calcular_dias_mes(mes,anio)
     
     semana_dias = ['do', 'lu', 'ma', 'mi', 'ju', 'vi', 'sa']
+    
+    semana_dias2 = ["<" + item + ">" for item in semana_dias]
+    print(semana_dias2)
+    
     semana_num  = [''] * 7
     
     print ('===================================')
