@@ -1,4 +1,4 @@
-#Tp5Ej1
+#TP3 Ej 1
 
 class MenorMinimoError(Exception):
     pass
@@ -29,13 +29,25 @@ def ingresar_numero(mensaje, nro_min, nro_max, mensaje_min, mensaje_max):
     
         except MayorMaximoError:
             print(mensaje_max)
-    
-    
-def main():
-    edad = ingresar_numero("Ingrese su edad: ", -1, 150, "La edad no puede ser negativa", "Imposible que tengas esa edad")    
-    print("Edad: ", edad)
-    nota = ingresar_numero("Ingrese la nota: ", 0, 11, "La nota no puede ser menor a 1", "La nota no puede ser mayor a 10")
-    print('hola ' + 5)
 
-if __name__ == '__main__':
+def cargar_matriz(matriz):
+    for f in range(0,len(matriz)):
+        for c in range(0,len(matriz[f])):
+            matriz[f][c] = ingresar_numero("Ingrese un número: ", 0, 100, "Ingrese un número mayor a cero", "Ingrese un número menor a 100")
+
+def imprimir_matriz(matriz):
+    for f in range(0,len(matriz)):
+        for c in range(0,len(matriz[f])):
+            print("{0:>2}".format(matriz[f][c]), end='|')
+        print()
+
+
+def main():
+    fila_columna= 3
+    matriz = [[0] * fila_columna for i in range(fila_columna)]
+    cargar_matriz(matriz)
+    imprimir_matriz(matriz)
+    
+    
+if __name__ == "__main__":
     main()
