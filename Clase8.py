@@ -83,12 +83,18 @@ def main():
     #Leer un archivo CSV
 
     lista = []
-    with open('personas-certificadas.csv', 'r', encoding="utf-8") as archivo_csv:
+    nombre_archivo = 'personas-certificadas.csv'
+    with open(nombre_archivo, 'r', encoding="utf-8") as archivo_csv:
+        primera_linea = True
         for linea in archivo_csv:
+            if primera_linea == True:
+                primera_linea = False
+                continue
+            
             a = linea.split(',')
             #print("DNI: " + valumno[0])
             #print("Nombre Completo: " + valumno[2] + " " + valumno[1])
-            lista.append(Alumno(a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7],a[8]))
+            lista.append(Alumno(int(a[0]),a[1],a[2],a[3],a[4],a[5],a[6],a[7],a[8]))
 
     for i in range(0,11):
         print(lista[i])
@@ -102,8 +108,10 @@ def main():
             cant_prov_baires += 1
         elif (lista[i].idProvincia == PROV_TUCUMAN):
             cant_prov_tucuman += 1
+    c_total = "Cant. Total "
+    str_total = str(cant_total)
 
-    print("Cant. Total ", cant_total)
+    print(c_total + str(cant_total))
     print("Cant. Prov. BA ", cant_prov_baires)
     print("Cant. Prov. Tucuman ", cant_prov_tucuman)
 

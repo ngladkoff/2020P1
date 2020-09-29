@@ -1,4 +1,4 @@
-def is_str_empty(texto: str) -> bool:
+def is_str_empty(texto: str) -> bool: # comentario
     """
     Funcion para saber si una cadena de caracteres
     esta vacia.
@@ -28,7 +28,7 @@ def is_str_empty(texto: str) -> bool:
 
     return False
 
-print(is_str_empty(5))
+print(is_str_empty("5"))
 print()
 print()
 print(is_str_empty.__doc__)
@@ -36,4 +36,4 @@ print()
 print()
 help(is_str_empty)
 print()
-print(is_str_empty(True))
+print(is_str_empty("True"))
