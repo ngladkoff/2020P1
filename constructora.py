@@ -1,7 +1,13 @@
 # Ejercicio constructora
 import random
 
-ESTADO_LIBRE= 0
+DEPTO_PEQ = 0
+DEPTO_MED = 1
+DEPTO_GDE = 2
+ESTADO_LIBRE = 0
+ESTADO_RESERVADO = 1
+ESTADO_VENDIDO = 2
+ESTADOS = ["Libre", "Reservado", "Vendido"]
 
 class Departamento:
     def __init__(self, numero, descripcion, m2, estado, precio):
@@ -22,7 +28,6 @@ def validar_valor(valor, valmin, valmax):
         raise ValMinMaxError
     if valor > valmax:
         raise ValMinMaxError
-
 
 def ingresar_numero(mensaje, valmin, valmax, msgerror):
     while True:
@@ -47,6 +52,10 @@ def main():
             guardar_departamentos(departamentos)
         elif op == 3:
             listado_dptos_libres(departamentos)
+        elif op == 4:
+            listado_cant_dptos_estado(departamentos)
+        elif op == 5:
+            marcar_dpto_reservado(departamentos)
         elif op == 6:
             generar_csv_prueba()
 
@@ -92,7 +101,6 @@ def generar_reporte_libres(libres):
 
 def obtener_deptos_libres(deptos):
     lista = []
-
     for dpto in deptos:
         if dpto.estado == ESTADO_LIBRE:
             lista.append(dpto)
@@ -108,6 +116,94 @@ def ordenar(lista, campo):
                 lista[i] = lista[i + 1]
                 lista[i + 1] = aux
 
+
+def listado_cant_dptos_estado(departamentos):
+    for estado in range(0,len(departamentos)):
+        cantidad = listar_cant_dptos_de_un_estado(estado, departamentos) 
+        print("Cantidad de deptos estado {0}: {1}".format(ESTADOS[estado], cantidad))
+
+
+def listar_cant_dptos_de_un_estado(estado, departamentos):
+    cantidad = 0
+    for i in range(0, len(departamentos)):
+        if (departamentos[i].estado == estado):
+            cantidad = cantidad + 1
+    return cantidad
+
+
+def marcar_dpto_reservado(departamentos):
+    depto = ingresar_numero("Ingrese el nro de departamento", 1, 1000, "Ingrese un nro de depto entre 1 y 1000")
+    monto = ingresar_numero("Ingrese el importe de venta", 1, 10000000, "Ingrese el importe entre 1 y 10000000")
+    i_depto = buscar_departamento_numero(depto, departamentos)
+
+    if i_depto == -1:
+        print("No se encontró el departamento")
+        return
+
+    if departamentos[i_depto].estado != ESTADO_LIBRE:
+        print("El departamento no se encuentra libre")
+        return
+
+    precio_venta_minimo = calcular_precio_venta_minimo(departamentos[i_depto], departamentos)
+    if monto < precio_venta_minimo:
+        print("El monto ingresado es menor al precio de venta mínimo")
+        return
+
+    departamentos[i_depto].estado = ESTADO_RESERVADO
+    departamentos[i_depto].precio = monto
+
+
+def calcular_precio_venta_minimo(depto, departamentos):
+    pond_tamanio = calcular_pond_tamanio(depto.m2)
+    pond_disponibilidad = calcular_pond_disp(depto.m2, departamentos)
+    minimo = 1500 + 100 * pond_tamanio + 200 * pond_disponibilidad
+    return minimo * depto.m2
+
+def calcular_pond_tamanio(m2):
+    if m2 < 100:
+        return 10
+
+    if m2 > 200:
+        return 5
+
+    return 8
+
+
+def calcular_pond_disp(m2, departamentos):
+    contadores= [0,0,0]
+    for i in range(0,len(departamentos)):
+        if departamentos[i].estado != ESTADO_LIBRE:
+            continue
+
+        if departamentos[i].m2 < 100:
+            contadores[DEPTO_PEQ] += 1
+        elif departamentos[i].m2 > 200:
+            contadores[DEPTO_GDE] += 1
+        else:
+            contadores[DEPTO_MED] += 1
+
+    tamanio = None
+    if m2 < 100:
+        tamanio = DEPTO_PEQ
+    elif m2 > 200:
+        tamanio = DEPTO_GDE
+    else: 
+        tamanio = DEPTO_MED
+
+    if contadores[tamanio] > 5:
+        return 0
+    
+    if contadores[tamanio] < 2:
+        return 5
+
+    return 2
+
+
+def buscar_departamento_numero(nro_depto, departamentos):
+    for i in range(0, len(departamentos)):
+        if departamentos[i] == nro_depto:
+            return i
+    return -1
 
 def generar_csv_prueba():
     lista = []
